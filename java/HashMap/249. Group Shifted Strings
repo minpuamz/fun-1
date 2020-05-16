@@ -1,0 +1,32 @@
+
+
+class Solution {
+    public List<List<String>> groupStrings(String[] strings) {
+        Map<String, List<String>> map = new HashMap<>();
+        List<List<String>> res = new ArrayList<>();
+        for (String s: strings) {
+            // normalized to 'a'; smart
+            int offset = s.charAt(0) - 'a';
+            String key = "";
+            for (int i = 0; i < s.length(); i++) {
+                char c = (char) (s.charAt(i) - offset);
+                if (c < 'a') {
+                    c += 26;
+                }
+                key += c;
+            }
+            // update map
+            List<String> tmp = map.getOrDefault(key, new ArrayList<>());
+            tmp.add(s);
+            map.put(key, tmp);
+        }
+        
+        // convert map to list
+        for (String key : map.keySet()) {
+            List<String> list = map.get(key);
+            //Collections.sort(list);
+            res.add(list);
+        }
+        return res;
+    }
+}
